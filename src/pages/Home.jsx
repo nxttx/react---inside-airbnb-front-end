@@ -1,7 +1,10 @@
-import './Home.css';
+import "./Home.scss";
 
 function Home() {
-  return (<h1>Home</h1>
+  return (
+    <main className="container">
+      <h1>Home</h1>
+    </main>
   );
 }
 

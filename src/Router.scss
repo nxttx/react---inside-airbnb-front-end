@@ -1,0 +1,79 @@
+/*
+ * Main style sheet
+ */
+
+html {
+  scroll-behavior: smooth
+}
+
+body {
+  margin: 0;
+  font-family: "Montserrat", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.container {
+  max-width: 320px;
+  margin: 0 auto;
+  height: 100% !important;
+
+  @media (min-width: 375px) {
+    max-width: 327px;
+  }
+
+  @media (min-width: 744px) {
+    max-width: 664px;
+  }
+
+  @media (min-width: 950px) {
+    max-width: 870px;
+  }
+
+  @media (min-width: 1128px) {
+    max-width: 968px;
+  }
+
+  @media (min-width: 1440px) {
+    max-width: 1280px;
+  }
+}
+
+// .container {
+//   height: 100% !important;
+//   position: relative !important;
+//   width: 100% !important;
+//   z-index: 1 !important;
+
+//   @media (min-width: 375px) {
+//     padding-left: 24px !important;
+//     padding-right: 24px !important;
+//   }
+
+//   @media (min-width: 744px) {
+//     padding-left: 40px !important;
+//     padding-right: 40px !important;
+//   }
+
+//   @media (min-width: 950px) {
+//     padding-left: 40px !important;
+//     padding-right: 40px !important;
+//   }
+
+//   @media (min-width: 1128px) {
+//     padding-left: 80px !important;
+//     padding-right: 80px !important;
+//   }
+
+//   @media (min-width: 1440px) {
+//     padding-left: 80px !important;
+//     padding-right: 80px !important;
+//   }
+// }
