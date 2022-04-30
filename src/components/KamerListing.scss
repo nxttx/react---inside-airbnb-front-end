@@ -1,0 +1,64 @@
+.listing {
+  width: auto;
+  height: 220px;
+  .content {
+    width: auto;
+    height: 83%;
+    margin-left: 8px;
+    margin-right: 8px;
+
+    .data {
+      width: auto;
+      height: 100%;
+      display: flex;
+
+      .graph {
+        background-color: #ddd;
+        border-radius: 12px;
+        width: 275px;
+        position: relative;
+        // background-image: url(https://a0.muscache.com/im/pictures/7560e0f2-8e1b-4a36-937c-c0671f3d3f52.jpg?im_w=720);
+        // background-size: cover;
+        // background-position: 50% 50% !important;
+        // background-repeat: no-repeat !important;
+        .tag {
+          position: absolute;
+          left: 10px;
+          top: 10px;
+          background-clip: padding-box;
+          background-color: rgba(255, 255, 255, 0.95);
+          border: 0.5px solid rgba(0, 0, 0, 0.2);
+          border-radius: 4px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+          display:flex;
+          justify-content: center;
+          min-width: 20px;
+          width:fit-content;
+          padding: 4px 8px;
+          span {
+            font-size: 12px;
+            line-height: 16px;
+            overflow: clip;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+          }
+        }
+      }
+
+      .body {
+        margin-left: 8px;
+      }
+    }
+
+    .seperator {
+      height: 1px;
+      background-color: rgb(221, 221, 221);
+      width: 100%;
+      margin-top: 20px;
+      margin-bottom: 4px;
+    }
+  }
+}
