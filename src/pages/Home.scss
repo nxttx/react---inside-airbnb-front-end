@@ -6,18 +6,31 @@ main{
   width: 100%;
   // height: 100%;
   display: flex; 
-  div{
+  div.item{
     width:50%;
     .listings{
       width: auto;
       margin: 0px 24px;
     }
-    .map-container {
-      position: fixed;
-      height: calc(100vh - 70px);
-      width: 100%;
-      .mapboxgl-control-container{
-        display: none;
+    &.map {
+      display: flex;
+      overflow: hidden;
+      justify-content: center;
+      .map-container {
+        position: fixed;
+        height: calc(100vh - 70px);
+        width: 50%;
+        .mapboxgl-canvas-container {
+          height: calc(100vh - 70px);
+          width: 100%;
+          canvas{
+            height: 100%!important;
+            width: 100%!important;
+          }
+        }
+        .mapboxgl-control-container {
+          display: none;
+        }
       }
     }
   }

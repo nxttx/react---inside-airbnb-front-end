@@ -1,12 +1,24 @@
-import * as React from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faBars, faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faBars, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import getNeighbourhoods from '../DataAccessLayer/getNeighbourhoods.js' 
 
 import "./Header.scss";
 import headerLogo from "./Header.svg";
 
 function Header() {
+
+  const [neighbourhoods, setNeighbourhoods] = useState([]);
+
+  useEffect(() =>{ 
+    async function fetchData(){
+      let data = await getNeighbourhoods();
+      setNeighbourhoods(data);
+    }
+    fetchData();
+
+  }, [])
   return (<>
     <header>
       <div className="container">
@@ -15,17 +27,14 @@ function Header() {
           <FontAwesomeIcon icon={faAngleDown} />
           <select>
             <option defaultChecked >Begin je zoektocht</option>
-            <option >Amsterdam</option>
-            <option >Bijlmer-Centrum</option>
-            <option >Bijlmer-Oost</option>
-            <option >Bos en Lommer</option>
+            {neighbourhoods.map(element=> <option key={element}>{element}</option>)}
           </select>
         </div>
-        <div className="userprofile">
+        <Link className="userprofile" to="/login">
           <FontAwesomeIcon icon={faBars} />
           <FontAwesomeIcon icon={faUser} className="user" />
 
-        </div>
+        </Link>
       </div>
     </header>
     <div className="clearfix"/>

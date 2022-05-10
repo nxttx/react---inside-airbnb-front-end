@@ -9,9 +9,9 @@ mapboxgl.accessToken =
 function Home() {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-70.9);
-  const [lat, setLat] = useState(42.35);
-  const [zoom, setZoom] = useState(9);
+  const [lng, setLng] = useState(4.896407);  //Amsterdam
+  const [lat, setLat] = useState(52.378250); //Amsterdam
+  const [zoom, setZoom] = useState(10);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -24,8 +24,8 @@ function Home() {
   });
 
   return (
-    <main className="">
-      <div>
+    <main>
+      <div className="item">
 
         <div className="listings">
           <h1>Inside Airbnb</h1>
@@ -36,11 +36,9 @@ function Home() {
           <KamerListing tag="Short-Term Rentals" />
           <KamerListing tag="Listings per Host" />
           <KamerListing tag="Activity" />
-
-
         </div>
       </div>
-      <div>
+      <div className="map item">
         <div ref={mapContainer} className="map-container" />
       </div>
     </main>

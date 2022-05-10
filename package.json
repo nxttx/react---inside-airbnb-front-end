@@ -23,6 +23,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "ignorePatterns": ["src/*", "!src/reportWebVitals.js"],
     "extends": [
       "react-app",
       "react-app/jest"
