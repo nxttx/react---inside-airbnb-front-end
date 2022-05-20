@@ -2,7 +2,8 @@ import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBars, faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import getNeighbourhoods from '../DataAccessLayer/getNeighbourhoods.js' 
+import getNeighbourhoods from '../DataAccessLayer/getNeighbourhoods.js';
+import translate from '../core/language';
 
 import "./Header.scss";
 import headerLogo from "./Header.svg";
@@ -26,7 +27,7 @@ function Header() {
         <div className="search_bar">
           <FontAwesomeIcon icon={faAngleDown} />
           <select>
-            <option defaultChecked >Begin je zoektocht</option>
+            <option defaultChecked >{translate("default_search_bar")}</option>
             {neighbourhoods.map(element=> <option key={element}>{element}</option>)}
           </select>
         </div>

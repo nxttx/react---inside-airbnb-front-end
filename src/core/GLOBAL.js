@@ -1,0 +1,1 @@
+export const IP = "https://localhost:44323"
