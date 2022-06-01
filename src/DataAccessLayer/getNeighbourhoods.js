@@ -2,7 +2,7 @@ import { IP } from "../core/GLOBAL";
 
 
 async function getNeighbourhoods(clear = false) {
-  if(sessionStorage.getItem('neighbourhoods') === null || !clear){
+  if(sessionStorage.getItem('neighbourhoods') === null || clear){
     let request = await fetch(IP+"/neighbourhoods", {method:"get"});
     let response = await request.text();
     sessionStorage.setItem('neighbourhoods', response);

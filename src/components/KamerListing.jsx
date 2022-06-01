@@ -10,13 +10,14 @@ function KamerListing(props) {
 
   function formatReviewScoresRating(number){
     let score = number.toString();
-    if(score.length == 2 ){
-      let a = score.slice();
-      return a[0] + ',' +a[1];
-    } else { //must be three
-      let a = score.slice();
-      return a[0] + a[1] +',' +a[2];
-    }
+    return score.slice(0, 3);
+    // if(score.length == 2 ){
+    //   let a = score.slice();
+    //   return a[0] + ',' +a[1];
+    // } else { //must be three
+    //   let a = score.slice();
+    //   return a[0] + a[1] +',' +a[2];
+    // }
   }
 
   return (
@@ -47,16 +48,19 @@ function KamerListing(props) {
             <div className="info">
               {props.data.accommodates} {(props.data.accommodates >1) ? translate("guests") : translate("guest")} <span className="dash">-</span> 
               {props.data.bedrooms} {(props.data.bedrooms >1) ? translate("bedrooms") : translate("bedroom")} <span className="dash">-</span> 
-              {props.data.bathrooms} {(props.data.bathrooms <2) ? translate("bathrooms") : translate("bathroom")} <span className="dash">-</span> 
+              {props.data.bathrooms.replace(/[^\d.]/g, '')}  {(props.data.bathrooms <2) ? translate("bathrooms") : translate("bathroom")} <span className="dash">-</span> 
               {props.data.beds} {(props.data.beds >1) ? translate("beds") : translate("bed")}
             </div>
-            <div className="reviews">
+            {(props.data.review_scores_rating != null && props.data.number_of_reviews != null && props.data.number_of_reviews > 0)? 
+              <div className="reviews">
                 <FontAwesomeIcon icon={faStar} />
                 {formatReviewScoresRating(props.data.review_scores_rating)}
                 <div className="outof">
                   ({props.data.number_of_reviews} {translate("reviews")})
                 </div>
-            </div>
+              </div>
+              : <></>
+            }
           </div>
         </div>
 
