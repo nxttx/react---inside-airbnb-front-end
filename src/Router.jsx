@@ -6,11 +6,13 @@ import Header from "./components/Header";
 
 
 function Router() {
+  const [updateMap, setUpdateMap] = React.useState(1); //Amsterdam
+  
   return (
     <>
-      <Header></Header>
+      <Header setUpdateMap={setUpdateMap} updateMap={updateMap}></Header>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home updateMap={updateMap}/>} />
         {/* <Route path="about" element={<About />} /> */}
       </Routes>
     </>

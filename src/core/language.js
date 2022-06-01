@@ -28,6 +28,10 @@ export default function translate(id){
     en_reviews : "reviews",
     nl_review : "recensie",
     en_review : "review",
+    nl_price : "prijs",
+    en_price : "price",
+    nl_neighberhood: "buurt",
+    en_neighberhood: "neighborhood",
   };
 
   let result = lang[sessionStorage.getItem('language')+"_"+id]

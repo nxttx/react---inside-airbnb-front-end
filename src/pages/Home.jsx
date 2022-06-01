@@ -3,11 +3,12 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import "./Home.scss";
 import KamerListing from "../components/KamerListing";
 import { getListings, GetGeoData } from "../DataAccessLayer/getListings";
+import translate from '../core/language';
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoibnh0dHgiLCJhIjoiY2wya2w0bXk4MDl5NjNrcWNiajdvNmU0dyJ9.hLimT3jYMyLLtyXQo6jmpw";
 
-function Home() {
+function Home(props) {
   const [listings, setListings] = useState([]);
   const [geoData, setGeoData] = useState([]);
 
@@ -31,7 +32,12 @@ function Home() {
     async function fetchData() {
       let data = await getListings();
       setListings(data);
+    }
+    fetchData();
+  }, []);
 
+  useEffect(() => {
+    async function fetchData() {
       let geodata = await GetGeoData(false, true);
       setGeoData(geodata);
       // Create a new marker.
@@ -44,9 +50,17 @@ function Home() {
       //     .setLngLat([element.longitude, element.latitude])
       //     .addTo(map.current);
       //   return;
-      // });
+      // })
 
-      map.current.on("load", () => {
+      function updateMap(){
+        try {
+          map.current.removeLayer("listings-circle");
+        } catch (error) {
+        }
+        try {
+          map.current.removeSource("listings");
+        } catch (error) {
+        }
         map.current.addSource("listings", {
           type: "geojson",
           data: geodata,
@@ -62,26 +76,25 @@ function Home() {
           source: "listings",
           class: "marker",
           paint: {
-            "circle-color": "hsla(0,0%,0%,0.75)",
+            "circle-color": "RGBA(255,255,255,0.75)",
             "circle-stroke-width": 1.5,
-            "circle-stroke-color": "white",
-            
+            "circle-stroke-color": "#FF385C",
+
             "circle-radius": ["case", ["get", "cluster"], 10, 5], // 10 pixels for clusters, 5 pixels otherwise
           },
         });
 
         map.current.on('click', 'listings-circle', (e) => {
-          console.log(e)
-          if(e.features[0].properties.listingUrl == undefined) {
-            map.current.setZoom(map.current.getZoom() + 1)
-            map.current.setCenter(e.lngLat)
-          }else{
+          if (e.features[0].properties.listingUrl == undefined) {
+            map.current.setZoom(map.current.getZoom() + 1);
+            map.current.setCenter(e.lngLat);
+          } else {
             window.open(e.features[0].properties.listingUrl, '_blank').focus();
 
             new mapboxgl.Popup()
-            .setLngLat(e.lngLat)
-            .setHTML( e.features[0].properties.listingUrl )
-            .addTo(map.current);
+              .setLngLat(e.lngLat)
+              .setHTML(translate("price")+ ": " +e.features[0].properties.price +"<br>"+translate("reviews")+" : "+e.features[0].properties.reviewScoresRating + "/5<br>"+translate("neighberhood")+": " + e.features[0].properties.neighbourhoodCleansed + "<br>Url: <a href=\""+ e.features[0].properties.listingUrl + "\" > "+e.features[0].properties.listingUrl + "</a>" )
+              .addTo(map.current);
           }
         });
 
@@ -94,10 +107,14 @@ function Home() {
         map.current.on("mouseleave", "listings-circle", () => {
           map.current.getCanvas().style.cursor = "";
         });
-      });
+      }
+
+      map.current.on("load", () => { updateMap()});
+      updateMap();
     }
     fetchData();
-  }, []);
+  }, [props.updateMap]);
+
 
   return (
     <main>

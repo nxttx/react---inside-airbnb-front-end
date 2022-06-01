@@ -19,8 +19,32 @@ export async function GetGeoData(clear = false, GeoJson = false) {
     sessionStorage.setItem('geoData', response);
   }
 
+  let data = JSON.parse(sessionStorage.getItem('geoData'));
+
+  if(sessionStorage.getItem('currentFilters') !== null){
+    let currentFilters = JSON.parse(sessionStorage.getItem('currentFilters'));
+    if(currentFilters.minPrice !== "" || currentFilters.maxPrice !== "" || currentFilters.neighbourhood !== "" || currentFilters.minRating !== ""){
+      // filter on items that match the current filters combined and not combined
+      data = data.filter(item => {
+        let match = false;
+        if(currentFilters.minPrice !== "" && item.price < currentFilters.minPrice){
+          match = true;
+        }
+        if(currentFilters.maxPrice !== "" && item.price > currentFilters.maxPrice){
+          match = true;
+        }
+        if(currentFilters.neighbourhood !== "" && currentFilters.neighbourhood === item.neighbourhoodCleansed){
+          match = true;
+        }
+        if(currentFilters.minRating !== null && item.rating < currentFilters.minRating){
+          match = true;
+        }
+        return match;
+      });
+    }
+  }
+
   if (GeoJson) {
-    let data = JSON.parse(sessionStorage.getItem('geoData'));
     let geoJson = {
       type: 'FeatureCollection',
       features: []
@@ -32,6 +56,8 @@ export async function GetGeoData(clear = false, GeoJson = false) {
         properties: {
           price: element.price,
           listingUrl: element.listingUrl,
+          reviewScoresRating: element.reviewScoresRating,
+          neighbourhoodCleansed: element.neighbourhoodCleansed,
         }, 
         geometry: {
           type: 'Point',
@@ -43,5 +69,5 @@ export async function GetGeoData(clear = false, GeoJson = false) {
     return geoJson;
   }
 
-  return (JSON.parse(sessionStorage.getItem('geoData')));
+  return (data);
 }

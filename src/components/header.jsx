@@ -8,7 +8,7 @@ import translate from '../core/language';
 import "./Header.scss";
 import headerLogo from "./Header.svg";
 
-function Header() {
+function Header(props) {
 
   const [neighbourhoods, setNeighbourhoods] = useState([]);
 
@@ -20,15 +20,28 @@ function Header() {
     fetchData();
 
   }, [])
+
+
+  function neighbourhoodChange(e){
+    if(sessionStorage.getItem('currentFilters') === null){
+      sessionStorage.setItem('currentFilters', '{"neighbourhood": "'+e.currentTarget.value+'", "minPrice": "", "maxPrice": "", "minRating": ""}');
+    }else{
+      let currentfilters = JSON.parse(sessionStorage.getItem('currentFilters'));
+      currentfilters.neighbourhood = e.currentTarget.value;
+      sessionStorage.setItem('currentFilters', JSON.stringify(currentfilters));
+    }
+    props.setUpdateMap(props.updateMap +1);
+  }
+console.log(props)
   return (<>
     <header>
       <div className="container">
         <object data={headerLogo} type="image/svg+xml" > Airbnb logo </object>
         <div className="search_bar">
           <FontAwesomeIcon icon={faAngleDown} />
-          <select>
-            <option defaultChecked >{translate("default_search_bar")}</option>
-            {neighbourhoods.map(element=> <option key={element}>{element}</option>)}
+          <select onChange={neighbourhoodChange} >
+            <option defaultChecked value="" >{translate("default_search_bar")}</option>
+            {neighbourhoods.map(element=> <option key={element} value={element}>{element}</option>)}
           </select>
         </div>
         <Link className="userprofile" to="/login">
