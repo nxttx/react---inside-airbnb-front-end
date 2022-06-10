@@ -3,7 +3,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import "./Home.scss";
 import KamerListing from "../components/KamerListing";
 import { getListings, GetGeoData } from "../DataAccessLayer/getListings";
-import translate from '../core/language';
+import translate from "../core/language";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoibnh0dHgiLCJhIjoiY2wya2w0bXk4MDl5NjNrcWNiajdvNmU0dyJ9.hLimT3jYMyLLtyXQo6jmpw";
@@ -52,15 +52,13 @@ function Home(props) {
       //   return;
       // })
 
-      function updateMap(){
+      function updateMap() {
         try {
           map.current.removeLayer("listings-circle");
-        } catch (error) {
-        }
+        } catch (error) {}
         try {
           map.current.removeSource("listings");
-        } catch (error) {
-        }
+        } catch (error) {}
         map.current.addSource("listings", {
           type: "geojson",
           data: geodata,
@@ -84,16 +82,33 @@ function Home(props) {
           },
         });
 
-        map.current.on('click', 'listings-circle', (e) => {
+        map.current.on("click", "listings-circle", (e) => {
           if (e.features[0].properties.listingUrl == undefined) {
             map.current.setZoom(map.current.getZoom() + 1);
             map.current.setCenter(e.lngLat);
           } else {
-            window.open(e.features[0].properties.listingUrl, '_blank').focus();
+            // window.open(e.features[0].properties.listingUrl, "_blank").focus();
 
             new mapboxgl.Popup()
               .setLngLat(e.lngLat)
-              .setHTML(translate("price")+ ": " +e.features[0].properties.price +"<br>"+translate("reviews")+" : "+e.features[0].properties.reviewScoresRating + "/5<br>"+translate("neighberhood")+": " + e.features[0].properties.neighbourhoodCleansed + "<br>Url: <a href=\""+ e.features[0].properties.listingUrl + "\" > "+e.features[0].properties.listingUrl + "</a>" )
+              .setHTML(
+                translate("price") +
+                  ": " +
+                  e.features[0].properties.price +
+                  "<br>" +
+                  translate("reviews") +
+                  " : " +
+                  e.features[0].properties.reviewScoresRating +
+                  "/5<br>" +
+                  translate("neighberhood") +
+                  ": " +
+                  e.features[0].properties.neighbourhoodCleansed +
+                  '<br>Url: <a href="' +
+                  e.features[0].properties.listingUrl +
+                  '" > ' +
+                  e.features[0].properties.listingUrl +
+                  "</a>"
+              )
               .addTo(map.current);
           }
         });
@@ -109,12 +124,13 @@ function Home(props) {
         });
       }
 
-      map.current.on("load", () => { updateMap()});
+      map.current.on("load", () => {
+        updateMap();
+      });
       updateMap();
     }
     fetchData();
   }, [props.updateMap]);
-
 
   return (
     <main>
