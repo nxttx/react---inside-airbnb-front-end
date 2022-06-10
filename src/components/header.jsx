@@ -32,11 +32,13 @@ function Header(props) {
     }
     props.setUpdateMap(props.updateMap +1);
   }
-console.log(props)
+
   return (<>
     <header>
       <div className="container">
-        <object data={headerLogo} type="image/svg+xml" > Airbnb logo </object>
+        <Link to="/" className="logo">
+          <object data={headerLogo} type="image/svg+xml" > Airbnb logo </object>
+        </Link>
         <div className="search_bar">
           <FontAwesomeIcon icon={faAngleDown} />
           <select onChange={neighbourhoodChange} >

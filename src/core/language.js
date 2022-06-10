@@ -30,8 +30,12 @@ export default function translate(id){
     en_review : "review",
     nl_price : "prijs",
     en_price : "price",
-    nl_neighberhood: "buurt",
-    en_neighberhood: "neighborhood",
+    nl_signin_header: "Inloggen of aanmelden",
+    en_signin_header: "Signin or signup",
+    nl_welcome: "Welkom bij Airbnb",
+    en_welcome: "Welcome to Airbnb",
+    nl_login_with_azure: "Doorgaan met Microsoft account",
+    en_login_with_azure: "Continue with Microsoft account",
   };
 
   let result = lang[sessionStorage.getItem('language')+"_"+id]

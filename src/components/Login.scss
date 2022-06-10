@@ -1,0 +1,58 @@
+.login {
+  display: flex;
+  width: 100%;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+
+  .window {
+    min-width: 400px;
+    width: 568px;
+    border-radius: 12px;
+    box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
+    padding: 0px 24px 24px 24px;
+
+    .header {
+      display: flex;
+      font-size: 1em;
+      font-weight: 800;
+      line-height: inherit;
+      margin: 0px;
+      padding: 0px;
+      border-bottom: 1px solid rgb(235, 235, 235) ;
+      min-height: 64px !important;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content {
+      .welcome{
+        font-size: 22px;
+        line-height: 26px;
+        color: rgb(34, 34, 34);
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+      button {
+        display: flex;
+        font-size: 16px ;
+        line-height:20px ;
+        font-weight: 600;
+        border-radius: 8px ;
+        border-width: 1px ;
+        border-style: solid ;
+        padding: 13px 23px ;
+        border-color: #222222 ;
+        background: #fff ;
+        color:#222222 ;
+        width: 100% ;
+        align-items: center;
+        justify-content: space-around;
+        cursor: pointer;
+        object {
+          width: 25px;
+          filter: invert(45%) sepia(90%) saturate(1508%) hue-rotate(167deg) brightness(95%) contrast(101%);        }
+      }
+    }
+  }
+}
