@@ -3,12 +3,11 @@ import { config } from "../authentication/authConfig";
 import { PublicClientApplication } from "@azure/msal-browser";
 import Login from "../components/Login";
 import "./Admin.scss";
+import Charts from "../components/Charts";
 
 function Admin(props) {
   // auth //
-  const [error, setError] = React.useState(null);
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-  const [user, setUser] = React.useState({});
   const [publicClientApplication, setpublicClientApplication] = React.useState(
     new PublicClientApplication({
       auth: {
@@ -34,7 +33,7 @@ function Admin(props) {
       setIsAuthenticated(true);
     } catch (error) {
       setIsAuthenticated(false);
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -45,9 +44,9 @@ function Admin(props) {
   return (
     <>
       {!isAuthenticated ? 
-      <Login login={login}/> 
+      <Login login={()=>login()}/> 
       : 
-      <canvas className="myChart">loggedin!</canvas>
+      <Charts/>
       }
     </>
   );
