@@ -165,7 +165,7 @@ function Home(props) {
           <div className="filter">
             <div className="filter-item">
               <FontAwesomeIcon icon={faTag} />
-              <select value={JSON.parse(sessionStorage.getItem('currentFilters')).minPrice} onChange={minPriceFilterChange} >
+              <select value={JSON.parse(sessionStorage.getItem('currentFilters'))?.minPrice} onChange={minPriceFilterChange} >
                 <option value="">{ucFirst(translate("min_prices"))}</option>
                 <option value="0">0</option>
                 <option value="50">50</option>
@@ -177,7 +177,7 @@ function Home(props) {
             </div>
             <div className="filter-item">
               <FontAwesomeIcon icon={faTags} />
-              <select value={JSON.parse(sessionStorage.getItem('currentFilters')).maxPrice} onChange={maxPriceFilterChange} >
+              <select value={JSON.parse(sessionStorage.getItem('currentFilters'))?.maxPrice} onChange={maxPriceFilterChange} >
                 <option value="">{ucFirst(translate("max_prices"))}</option>
                 <option value='50'>50</option>
                 <option value='100'>100</option>
@@ -187,7 +187,7 @@ function Home(props) {
             </div>
             <div className="filter-item">
               <FontAwesomeIcon icon={faStarHalfStroke} />
-              <select value={JSON.parse(sessionStorage.getItem('currentFilters')).minRating} onChange={ratingFilterChange}>
+              <select value={JSON.parse(sessionStorage.getItem('currentFilters'))?.minRating} onChange={ratingFilterChange}>
                 <option value="">{ucFirst(translate("reviews"))}</option>
                 <option value="1">1+</option>
                 <option value="2">2+</option>
