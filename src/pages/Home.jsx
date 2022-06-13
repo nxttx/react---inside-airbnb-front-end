@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import "./Home.scss";
 import KamerListing from "../components/KamerListing";
-import { getListings, GetGeoData } from "../DataAccessLayer/getListings";
+import { getListings, getGeoData } from "../DataAccessLayer/getListings";
 import translate from "../core/language";
 
 mapboxgl.accessToken =
@@ -38,19 +38,8 @@ function Home(props) {
 
   useEffect(() => {
     async function fetchData() {
-      let geodata = await GetGeoData(false, true);
+      let geodata = await getGeoData(false, true, true);
       setGeoData(geodata);
-      // Create a new marker.
-      // geodata.forEach((element) => {
-      //   const el = document.createElement("div");
-      //   el.className = "marker";
-      //   el.innerText = "$ "+element.price + ".00";
-
-      //   new mapboxgl.Marker(el)
-      //     .setLngLat([element.longitude, element.latitude])
-      //     .addTo(map.current);
-      //   return;
-      // })
 
       function updateMap() {
         try {

@@ -12,7 +12,7 @@ export async function getListings(clear = false) {
 }
 
 
-export async function GetGeoData(clear = false, GeoJson = false) {
+export async function getGeoData(clear = false, GeoJson = false, useFiter = false ) {
   if (sessionStorage.getItem('geoData') === null || clear) {
     let request = await fetch(IP + "/listings/geodata", { method: "get" });
     let response = await request.text();
@@ -20,28 +20,29 @@ export async function GetGeoData(clear = false, GeoJson = false) {
   }
 
   let data = JSON.parse(sessionStorage.getItem('geoData'));
-
-  if(sessionStorage.getItem('currentFilters') !== null){
-    let currentFilters = JSON.parse(sessionStorage.getItem('currentFilters'));
-    if(currentFilters.minPrice !== "" || currentFilters.maxPrice !== "" || currentFilters.neighbourhood !== "" || currentFilters.minRating !== ""){
-      // filter on items that match the current filters combined and not combined
-      data = data.filter(item => {
-        let match = false;
-        if(currentFilters.minPrice !== "" && item.price < currentFilters.minPrice){
-          match = true;
-        }
-        if(currentFilters.maxPrice !== "" && item.price > currentFilters.maxPrice){
-          match = true;
-        }
-        if(currentFilters.neighbourhood !== "" && currentFilters.neighbourhood === item.neighbourhoodCleansed){
-          match = true;
-        }
-        if(currentFilters.minRating !== null && item.rating < currentFilters.minRating){
-          match = true;
-        }
-        return match;
-      });
-      
+  if(useFiter){
+    if(sessionStorage.getItem('currentFilters') !== null){
+      let currentFilters = JSON.parse(sessionStorage.getItem('currentFilters'));
+      if(currentFilters.minPrice !== "" || currentFilters.maxPrice !== "" || currentFilters.neighbourhood !== "" || currentFilters.minRating !== ""){
+        // filter on items that match the current filters combined and not combined
+        data = data.filter(item => {
+          let match = false;
+          if(currentFilters.minPrice !== "" && item.price < currentFilters.minPrice){
+            match = true;
+          }
+          if(currentFilters.maxPrice !== "" && item.price > currentFilters.maxPrice){
+            match = true;
+          }
+          if(currentFilters.neighbourhood !== "" && currentFilters.neighbourhood === item.neighbourhoodCleansed){
+            match = true;
+          }
+          if(currentFilters.minRating !== null && item.rating < currentFilters.minRating){
+            match = true;
+          }
+          return match;
+        });
+        
+      }
     }
   }
 
@@ -71,4 +72,54 @@ export async function GetGeoData(clear = false, GeoJson = false) {
   }
 
   return (data);
+}
+
+export async function getAveragePricesOfNeighbourhoods() {
+  let data =  await getGeoData();
+  
+  // calculate average prices of neighbourhoods from data 
+  let averagePrices = {};
+  data.forEach(element => {
+    if(averagePrices[element.neighbourhoodCleansed] === undefined){
+      averagePrices[element.neighbourhoodCleansed] = {price : 0, count : 0};
+    }
+    averagePrices[element.neighbourhoodCleansed].price += Number(element.price);
+    averagePrices[element.neighbourhoodCleansed].count += 1;
+  })
+
+  // calculate average prices of neighbourhoods from data
+  let averagePricesOfNeighbourhoods = [];
+  for (let key in averagePrices) {
+    averagePricesOfNeighbourhoods.push({
+      neighbourhood: key,
+      avaragePrice: averagePrices[key].price / averagePrices[key].count
+    });
+  }
+
+  return averagePricesOfNeighbourhoods;
+}
+
+export async function getAverageReviewScoresOfNeighbourhoods() {
+  let data =  await getGeoData();
+
+  // calculate average prices of neighbourhoods from data 
+  let avarageReviewScore = {};
+  data.forEach(element => {
+    if(avarageReviewScore[element.neighbourhoodCleansed] === undefined){
+      avarageReviewScore[element.neighbourhoodCleansed] = {reviewScore : 0, count : 0};
+    }
+    avarageReviewScore[element.neighbourhoodCleansed].reviewScore += Number(element.reviewScoresRating);
+    avarageReviewScore[element.neighbourhoodCleansed].count += 1;
+  })
+
+  // calculate average prices of neighbourhoods from data
+  let avarageReviewScoreOfNeighbourhoods = [];
+  for (let key in avarageReviewScore) {
+    avarageReviewScoreOfNeighbourhoods.push({
+      neighbourhood: key,
+      reviewScoresRating: avarageReviewScore[key].reviewScore / avarageReviewScore[key].count
+    });
+  }
+
+  return avarageReviewScoreOfNeighbourhoods;
 }
