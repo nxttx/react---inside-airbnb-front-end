@@ -11,6 +11,56 @@ main{
     .listings{
       width: auto;
       margin: 0px 24px;
+      .filter{
+        margin-top: 25px;
+        .filter-item {
+          margin: auto 5px;
+          align-items: center;
+          background-color: #ffffff;
+          border: 1px solid #DDDDDD;
+          border-radius: 40px;
+          box-shadow: 0 1px 2px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%);
+          color: #222222;
+          display: inline-flex;
+          max-width: 100%;
+          text-align: left;
+          transition: box-shadow 0.2s ease;
+          vertical-align: middle;
+    
+          svg{
+            padding-left: 35px;
+          }
+    
+          select {
+            padding: 0px 0px 0px 30px;
+            font-size: 14px;
+            font-weight: 450;
+    
+            width: 160px;
+            appearance: none;
+            background: transparent;
+            border: 1px solid transparent;
+            color: inherit;
+            cursor: pointer;
+            display: flex;
+            font-family: inherit;
+            margin: -1px;
+            outline: none;
+            overflow: visible;
+            text-align: inherit;
+            text-decoration: none;
+            user-select: auto;
+            align-items: center;
+            border-radius: 4px;
+            flex: 0 1 auto;
+            height: 48px;
+            min-width: 0;
+            position: relative;
+            z-index: 1;
+          }
+        }
+    
+      }
     }
     &.map {
       display: flex;

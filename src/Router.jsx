@@ -17,7 +17,7 @@ function Router() {
     <>
       <Header setUpdateMap={setUpdateMap} updateMap={updateMap}></Header>
       <Routes>
-        <Route path="/" element={<Home updateMap={updateMap}/>} />
+        <Route path="/" element={<Home setUpdateMap={setUpdateMap} updateMap={updateMap} />} />
         <Route path="/login" element={<Admin />} />
       </Routes>
     </>

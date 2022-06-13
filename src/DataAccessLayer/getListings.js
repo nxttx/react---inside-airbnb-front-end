@@ -26,18 +26,19 @@ export async function getGeoData(clear = false, GeoJson = false, useFiter = fals
       if(currentFilters.minPrice !== "" || currentFilters.maxPrice !== "" || currentFilters.neighbourhood !== "" || currentFilters.minRating !== ""){
         // filter on items that match the current filters combined and not combined
         data = data.filter(item => {
-          let match = false;
-          if(currentFilters.minPrice !== "" && item.price < currentFilters.minPrice){
-            match = true;
+          // todo edit: match moet altijd true zijn, als een filter item niet klopt  
+          let match = true;
+          if(currentFilters.minPrice !== "" && parseInt(item.price) < currentFilters.minPrice){
+            match = false;
           }
-          if(currentFilters.maxPrice !== "" && item.price > currentFilters.maxPrice){
-            match = true;
+          if(currentFilters.maxPrice !== "" && parseInt(item.price) > currentFilters.maxPrice){
+            match = false;
           }
-          if(currentFilters.neighbourhood !== "" && currentFilters.neighbourhood === item.neighbourhoodCleansed){
-            match = true;
+          if(currentFilters.neighbourhood !== "" && currentFilters.neighbourhood !== item.neighbourhoodCleansed){
+            match = false;
           }
-          if(currentFilters.minRating !== null && item.rating < currentFilters.minRating){
-            match = true;
+          if(currentFilters.minRating !== null && parseInt(item.rating) < parseInt(currentFilters.minRating)){
+            match = false;
           }
           return match;
         });
@@ -122,4 +123,34 @@ export async function getAverageReviewScoresOfNeighbourhoods() {
   }
 
   return avarageReviewScoreOfNeighbourhoods;
+}
+
+export async function getAmountOflistingsPerNeighbourhood() {
+  let data =  await getGeoData();
+
+  // calculate amout of listings per neighbourhood from data
+  let amountOfListingsPerNeighbourhood = {};
+  data.forEach(element => {
+    if(amountOfListingsPerNeighbourhood[element.neighbourhoodCleansed] === undefined){
+      amountOfListingsPerNeighbourhood[element.neighbourhoodCleansed] = 0;
+    }
+    amountOfListingsPerNeighbourhood[element.neighbourhoodCleansed] += 1;
+  })
+
+  // calculate amout of listings per neighbourhood from data
+  let amountOfListingsPerNeighbourhoods = [];
+  for (let key in amountOfListingsPerNeighbourhood) {
+    amountOfListingsPerNeighbourhoods.push({
+      neighbourhood: key,
+      amountOfListings: amountOfListingsPerNeighbourhood[key]
+    });
+
+    amountOfListingsPerNeighbourhoods.sort((a, b) => {
+      return b.amountOfListings - a.amountOfListings;
+    }
+    );
+
+  }
+
+  return amountOfListingsPerNeighbourhoods;
 }

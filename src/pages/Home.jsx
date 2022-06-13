@@ -1,9 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTag, faTags, faStarHalfStroke} from '@fortawesome/free-solid-svg-icons';
 import "./Home.scss";
 import KamerListing from "../components/KamerListing";
 import { getListings, getGeoData } from "../DataAccessLayer/getListings";
-import translate from "../core/language";
+import translate, {ucFirst} from "../core/language";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoibnh0dHgiLCJhIjoiY2wya2w0bXk4MDl5NjNrcWNiajdvNmU0dyJ9.hLimT3jYMyLLtyXQo6jmpw";
@@ -82,17 +84,17 @@ function Home(props) {
               .setLngLat(e.lngLat)
               .setHTML(
                 translate("price") +
-                  ": " +
+                  ": &euro;" +
                   e.features[0].properties.price +
-                  "<br>" +
+                  ",-<br>" +
                   translate("reviews") +
                   " : " +
-                  e.features[0].properties.reviewScoresRating +
-                  "/5<br>" +
+                  e.features[0].properties.reviewScoresRating.toString().substring(0, 3) +
+                  " / 5<br>" +
                   translate("neighberhood") +
                   ": " +
                   e.features[0].properties.neighbourhoodCleansed +
-                  '<br>Url: <a href="' +
+                  '<br>Url: <a target="_blank" href="' +
                   e.features[0].properties.listingUrl +
                   '" > ' +
                   e.features[0].properties.listingUrl +
@@ -121,12 +123,81 @@ function Home(props) {
     fetchData();
   }, [props.updateMap]);
 
+
+  function minPriceFilterChange(e){
+    if(sessionStorage.getItem('currentFilters') === null){
+      sessionStorage.setItem('currentFilters', '{"neighbourhood": "", "minPrice": "'+e.currentTarget.value+'", "maxPrice": "", "minRating": ""}');
+    }else{
+      let currentfilters = JSON.parse(sessionStorage.getItem('currentFilters'));
+      currentfilters.minPrice = e.currentTarget.value;
+      sessionStorage.setItem('currentFilters', JSON.stringify(currentfilters));
+    }
+    props.setUpdateMap(props.updateMap +1);
+  }
+
+  function maxPriceFilterChange(e){
+    if(sessionStorage.getItem('currentFilters') === null){
+      sessionStorage.setItem('currentFilters', '{"neighbourhood": "", "minPrice": "", "maxPrice": "'+e.currentTarget.value+'", "minRating": ""}');
+    }else{
+      let currentfilters = JSON.parse(sessionStorage.getItem('currentFilters'));
+      currentfilters.maxPrice = e.currentTarget.value;
+      sessionStorage.setItem('currentFilters', JSON.stringify(currentfilters));
+    }
+    props.setUpdateMap(props.updateMap +1);
+  }
+
+  function ratingFilterChange(e){
+    if(sessionStorage.getItem('currentFilters') === null){
+      sessionStorage.setItem('currentFilters', '{"neighbourhood": "", "minPrice": "", "maxPrice": "", "minRating": "' + e.currentTarget.value + '"}');
+    }else{
+      let currentfilters = JSON.parse(sessionStorage.getItem('currentFilters'));
+      currentfilters.minRating = e.currentTarget.value;
+      sessionStorage.setItem('currentFilters', JSON.stringify(currentfilters));
+    }
+    props.setUpdateMap(props.updateMap +1);
+  }
+
+
   return (
     <main>
       <div className="item">
         <div className="listings">
-          <h2>Aanbevolen airbnb's</h2>
-          <br />
+          <div className="filter">
+            <div className="filter-item">
+              <FontAwesomeIcon icon={faTag} />
+              <select value={JSON.parse(sessionStorage.getItem('currentFilters')).minPrice} onChange={minPriceFilterChange} >
+                <option value="">{ucFirst(translate("min_prices"))}</option>
+                <option value="0">0</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="150">150</option>
+                <option value="200">200</option>
+
+              </select>
+            </div>
+            <div className="filter-item">
+              <FontAwesomeIcon icon={faTags} />
+              <select value={JSON.parse(sessionStorage.getItem('currentFilters')).maxPrice} onChange={maxPriceFilterChange} >
+                <option value="">{ucFirst(translate("max_prices"))}</option>
+                <option value='50'>50</option>
+                <option value='100'>100</option>
+                <option value='150'>150</option>
+                <option value='200'>200</option>
+              </select>
+            </div>
+            <div className="filter-item">
+              <FontAwesomeIcon icon={faStarHalfStroke} />
+              <select value={JSON.parse(sessionStorage.getItem('currentFilters')).minRating} onChange={ratingFilterChange}>
+                <option value="">{ucFirst(translate("reviews"))}</option>
+                <option value="1">1+</option>
+                <option value="2">2+</option>
+                <option value="3">3+</option>
+                <option value="4">4+</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+          </div>
+          <h2>Aanbevolen:</h2>
           {listings.map((element) => (
             <KamerListing data={element} key={"Kamerlisting" + element.id} />
           ))}

@@ -41,8 +41,8 @@ function Header(props) {
         </Link>
         <div className="search_bar">
           <FontAwesomeIcon icon={faAngleDown} />
-          <select onChange={neighbourhoodChange} >
-            <option defaultChecked value="" >{translate("default_search_bar")}</option>
+          <select value={JSON.parse(sessionStorage.getItem('currentFilters')).neighbourhood} onChange={neighbourhoodChange} >
+            <option value="" >{translate("default_search_bar")}</option>
             {neighbourhoods.map(element=> <option key={element} value={element}>{element}</option>)}
           </select>
         </div>
