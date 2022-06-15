@@ -157,7 +157,6 @@ function Home(props) {
     props.setUpdateMap(props.updateMap +1);
   }
 
-
   return (
     <main>
       <div className="item">
@@ -198,7 +197,7 @@ function Home(props) {
             </div>
           </div>
           <h2>Aanbevolen:</h2>
-          {listings.map((element) => (
+          {listings?.map((element) => (
             <KamerListing data={element} key={"Kamerlisting" + element.id} />
           ))}
         </div>

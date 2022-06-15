@@ -4,7 +4,8 @@ import { IP } from "../core/GLOBAL";
 export async function getListings(clear = false) {
   if (sessionStorage.getItem('listings') === null || clear) {
     let request = await fetch(IP + "/listings", { method: "get" });
-    let response = await request.text();
+    let response = await request.json();
+    response = JSON.stringify(response.Value);
     sessionStorage.setItem('listings', response);
   }
 
@@ -15,7 +16,8 @@ export async function getListings(clear = false) {
 export async function getGeoData(clear = false, GeoJson = false, useFiter = false ) {
   if (sessionStorage.getItem('geoData') === null || clear) {
     let request = await fetch(IP + "/listings/geodata", { method: "get" });
-    let response = await request.text();
+    let response = await request.json();
+    response = JSON.stringify(response.Value);
     sessionStorage.setItem('geoData', response);
   }
 
