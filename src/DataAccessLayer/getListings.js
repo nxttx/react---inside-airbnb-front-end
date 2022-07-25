@@ -28,7 +28,6 @@ export async function getGeoData(clear = false, GeoJson = false, useFiter = fals
       if(currentFilters.minPrice !== "" || currentFilters.maxPrice !== "" || currentFilters.neighbourhood !== "" || currentFilters.minRating !== ""){
         // filter on items that match the current filters combined and not combined
         data = data.filter(item => {
-          // todo edit: match moet altijd true zijn, als een filter item niet klopt  
           let match = true;
           if(currentFilters.minPrice !== "" && parseInt(item.price) < currentFilters.minPrice){
             match = false;
