@@ -50,6 +50,16 @@ export default function translate(id){
     en_max_prices: "Highest price",
     nl_recommended: "Aanbevolen",
     en_recommended: "Recommended",
+    nl_change_language: "Change language to English",
+    en_change_language: "Verander taal naar Nederlands",
+    nl_signup: "Aanmelden",
+    en_signup: "Signup",
+    nl_signin: "Inloggen",
+    en_signin: "Signin",
+    nl_assistance: "Hulp",
+    en_assistance: "Assistance",
+    nl_contact: "Contact",
+    en_contact: "Contact",
   };
 
   let result = lang[sessionStorage.getItem('language')+"_"+id]
