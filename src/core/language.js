@@ -48,6 +48,8 @@ export default function translate(id){
     en_min_prices: "Lowest price",
     nl_max_prices: "Hoogste prijs",
     en_max_prices: "Highest price",
+    nl_recommended: "Aanbevolen",
+    en_recommended: "Recommended",
   };
 
   let result = lang[sessionStorage.getItem('language')+"_"+id]

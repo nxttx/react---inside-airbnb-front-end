@@ -196,7 +196,7 @@ function Home(props) {
               </select>
             </div>
           </div>
-          <h2>Aanbevolen:</h2>
+          <h2>{ucFirst(translate('recommended'))}</h2>
           {listings?.map((element) => (
             <KamerListing data={element} key={"Kamerlisting" + element.id} />
           ))}
