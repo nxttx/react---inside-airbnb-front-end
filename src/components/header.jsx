@@ -83,12 +83,12 @@ function Header(props) {
           <div>
             <Link className="submenu-item fat" to="/login">
               <div>
-                {translate("signup")}
+                {translate("sign_up")}
               </div>
             </Link>
             <Link className="submenu-item fat" to="/login">
               <div>
-                {translate("signin")}
+                {translate("sign_in")}
               </div>
             </Link>
             <div className="linebreak"/>
